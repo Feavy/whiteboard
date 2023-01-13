@@ -1,0 +1,11 @@
+#chat {
+    background-color: #333;
+    color: white;
+    min-width: 300px;
+    padding: .5em;
+    box-sizing: border-box;
+}
+
+.sender {
+    display: flex;
+}

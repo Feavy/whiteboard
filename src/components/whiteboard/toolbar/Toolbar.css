@@ -1,0 +1,23 @@
+#toolbar {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background: #EEE;
+    padding: .5em;
+    border-radius: 0 10px 10px 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#toolbar .button {
+    padding: .3em;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: background .2s;
+    text-align: center;
+}
+
+#toolbar .button:hover {
+    background-color: #DDD;
+}
