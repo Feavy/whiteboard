@@ -41,15 +41,22 @@ export default class PlatformerScene extends Phaser.Scene {
         }
       });
     });
+
+    this.input.on('pointerdown', (ev: Event) => {
+      console.log(ev.worldX, ev.worldY);
+      this.matter.add.rectangle(ev.worldX, ev.worldY, 50, 50, {
+        isStatic: true,
+      });
+    });
   }
 
   public update(time: number, delta: number) {
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-5);
+      this.player.setVelocityX(-3);
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(5);
+      this.player.setVelocityX(3);
     } else {
-      this.player.setVelocityX(this.player.body.velocity.x * 0.99);
+      this.player.setVelocityX(this.player.body.velocity.x * 0.90);
     }
     if (this.cursors.up.isDown && this.canJump) {
       this.player.setAwake();
