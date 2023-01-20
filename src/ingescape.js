@@ -39,7 +39,7 @@ const agentEvents = {
     IGS_AGENT_LOST_ELECTION : 9
 };
 
-class Agent {
+export class Agent {
     static _ourAgents = new Map();
     static _messagesToSendOnWS = [];
     static _isConnected = false;
@@ -1041,7 +1041,7 @@ class Agent {
     }
 }
 
-class IGS {
+export class IGS {
     static _serverURL = "";
     static _receiveCloseEventOnWS = false;
     static _observeWebSocketState = [];

@@ -3,7 +3,7 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
+    "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
     "strictPropertyInitialization": false
   },
-  "include": ["src", "node_modules/ingescape/types"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

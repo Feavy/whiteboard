@@ -1,7 +1,7 @@
 import AvatarIcon from '@mui/icons-material/AccountCircle';
 import './Chat.css'
 import {useState} from "react";
-import IGS from "ingescape";
+import {IGS} from "../../ingescape";
 
 function Chat() {
 
@@ -10,9 +10,10 @@ function Chat() {
     const handleChange = (event: any) => {
         // 👇 Get input value from "event"
         setMessage(event.target.value);
-
-        IGS.serviceCall("Whiteboard", "addShape", ['ellipse', 100, 300, 200, 100, 'blue', 'black', 4], '');
     };
+
+    IGS.serviceCall("Whiteboard", "addShape", ['ellipse', 100, 300, 200, 100, 'blue', 'black', 4], '');
+    console.log(IGS);
 
   return (
       <div id="chat">
