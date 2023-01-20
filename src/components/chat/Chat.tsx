@@ -1,19 +1,27 @@
 import AvatarIcon from '@mui/icons-material/AccountCircle';
 import './Chat.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {IGS} from "../../ingescape";
 
 function Chat() {
 
-    const [message, setMessage] = useState('Enter a text');
+  const [message, setMessage] = useState('Enter a text');
 
-    const handleChange = (event: any) => {
-        // 👇 Get input value from "event"
-        setMessage(event.target.value);
-    };
+  useEffect(() => {
+    IGS.netSetServerURL("ws://localhost:5000");
+    IGS.agentSetName("Marioboard");
+    IGS.start();
+  }, [])
 
-    IGS.serviceCall("Whiteboard", "addShape", ['ellipse', 100, 300, 200, 100, 'blue', 'black', 4], '');
-    console.log(IGS);
+  const handleChange = (event: any) => {
+    // 👇 Get input value from "event"
+    setMessage(event.target.value);
+
+    let args = [];
+    IGS.serviceArgsAddInt()
+    const ret = IGS.serviceCall("Whiteboard", "addShape", ['ellipse', 100, 300, 200, 100, 'blue', 'black', 4], '');
+    console.log("service returned", ret);
+  };
 
   return (
       <div id="chat">
@@ -22,8 +30,8 @@ function Chat() {
           <div className="sender">
             <AvatarIcon/>
             <div>
-            <div className="message-sender">John Doe</div>
-          <div className="message-content">Hello World!</div>
+              <div className="message-sender">John Doe</div>
+              <div className="message-content">Hello World!</div>
 
             </div>
           </div>
@@ -33,14 +41,14 @@ function Chat() {
           <div className="message-content">Hello World!</div>
         </div>
 
-          <h2>Message: {message}</h2>
+        <h2>Message: {message}</h2>
 
-          <input
-              type="text"
-              id="message"
-              name="message"
-              onChange={handleChange}
-          />
+        <input
+            type="text"
+            id="message"
+            name="message"
+            onChange={handleChange}
+        />
       </div>
   )
 }
