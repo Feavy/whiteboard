@@ -51,17 +51,18 @@ export default class PlatformerScene extends Phaser.Scene {
   }
 
   public update(time: number, delta: number) {
+    const speed = delta / (1000 / 60);
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-3);
+      this.player.setVelocityX(-3*speed);
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(3);
+      this.player.setVelocityX(3*speed);
     } else {
-      this.player.setVelocityX(this.player.body.velocity.x * 0.90);
+      this.player.setVelocityX(this.player.body.velocity.x * 0.90 / speed);
     }
     if (this.cursors.up.isDown && this.canJump) {
       this.player.setAwake();
       console.log("Jump !");
-      this.player.setVelocityY(-10);
+      this.player.setVelocityY(-10*speed);
       this.canJump = false;
     }
   }
