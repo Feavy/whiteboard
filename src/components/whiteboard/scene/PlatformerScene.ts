@@ -42,7 +42,7 @@ export default class PlatformerScene extends Phaser.Scene {
       });
     });
 
-    this.input.on('pointerdown', (ev: Event) => {
+    this.input.on('pointerdown', (ev: any) => {
       console.log(ev.worldX, ev.worldY);
       this.matter.add.rectangle(ev.worldX, ev.worldY, 50, 50, {
         isStatic: true,
