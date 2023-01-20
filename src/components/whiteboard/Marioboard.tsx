@@ -17,7 +17,7 @@ const config: Phaser.Types.Core.GameConfig = {
   }
 };
 
-function Whiteboard() {
+function Marioboard() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -53,4 +53,4 @@ function Whiteboard() {
   )
 }
 
-export default Whiteboard;
+export default Marioboard;

@@ -1,11 +1,11 @@
 import './App.css'
-import Whiteboard from "./components/whiteboard/Whiteboard";
+import Marioboard from "./components/whiteboard/Marioboard";
 import Chat from "./components/chat/Chat";
 
 function App() {
   return (
     <div id="app">
-      <Whiteboard />
+      <Marioboard />
       <Chat />
     </div>
   )

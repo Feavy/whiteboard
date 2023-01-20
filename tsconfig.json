@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
     "strictPropertyInitialization": false
   },
-  "include": ["src"],
+  "include": ["src", "node_modules/ingescape/types"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
