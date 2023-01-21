@@ -1,9 +1,9 @@
 import './Whiteboard.css'
-import { fabric } from 'fabric';
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import Toolbar from "./toolbar/Toolbar";
 import Phaser from "phaser";
 import PlatformerScene from "./scene/PlatformerScene";
+import Singleton from "tydi/di/annotations/Singleton";
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.WEBGL,
@@ -17,40 +17,56 @@ const config: Phaser.Types.Core.GameConfig = {
   }
 };
 
-function Marioboard() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+@Singleton
+export default class Marioboard {
+  private _game: Phaser.Game;
+  private _scene: PlatformerScene;
 
-  let initialized: boolean = false;
+  constructor() {
+    this.view = this.view.bind(this);
+  }
 
-  useEffect(() => {
-    if(initialized) {
-      return;
-    }
+  public get game() {
+    return this._game;
+  }
 
-    const width = containerRef.current?.clientWidth || 0;
-    const height = containerRef.current?.clientHeight || 0;
+  public get scene() {
+    return this._scene;
+  }
 
-    const scene = new PlatformerScene(width, height);
+  public view() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    config.width = width;
-    config.height = height;
-    console.log("ref", canvasRef)
-    config.canvas = canvasRef.current!!;
-    config.scene = scene;
+    let initialized: boolean = false;
 
-    new Phaser.Game(config);
+    useEffect(() => {
+      if(initialized) {
+        return;
+      }
 
-    initialized = true;
-  });
+      const width = containerRef.current?.offsetWidth || 0;
+      const height = containerRef.current?.offsetHeight || 0;
 
-  return (
-      <div id="whiteboard" ref={containerRef}>
-        <h1 id="title">Whiteboard</h1>
-        <canvas id="canvas" ref={canvasRef}/>
-        <Toolbar/>
-      </div>
-  )
+      this._scene = new PlatformerScene(width, height);
+
+      config.width = width;
+      config.height = height;
+
+      config.canvas = canvasRef.current!!;
+      config.scene = this._scene;
+
+      this._game = new Phaser.Game(config);
+
+      initialized = true;
+    }, []);
+
+    return (
+        <div id="whiteboard" ref={containerRef}>
+          <h1 id="title">Whiteboard</h1>
+          <canvas id="canvas" ref={canvasRef}/>
+          <Toolbar/>
+        </div>
+    );
+  }
 }
-
-export default Marioboard;

@@ -12,13 +12,17 @@ export default class App {
   @Produces
   public serverURL: string = "ws://localhost:5000";
 
+  constructor(private readonly marioboard: Marioboard) {
+  }
+
   @Startup
   public render() {
+    const Marioboard = this.marioboard.view;
+
     ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <React.StrictMode>
           <div id="app">
             <Marioboard/>
-            <Chat/>
           </div>
         </React.StrictMode>
     );
