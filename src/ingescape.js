@@ -17,7 +17,7 @@ const iops = {
 };
 
 // Enum for iop value types
-const iopTypes = {
+export const iopTypes = {
     IGS_INTEGER_T: 1,
     IGS_DOUBLE_T: 2,
     IGS_STRING_T: 3,

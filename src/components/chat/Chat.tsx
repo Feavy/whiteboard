@@ -2,25 +2,23 @@ import AvatarIcon from '@mui/icons-material/AccountCircle';
 import './Chat.css'
 import {useEffect, useState} from "react";
 import {IGS} from "../../ingescape";
+import MarioboardAgent from "../../services/MarioboardAgent";
 
 function Chat() {
 
   const [message, setMessage] = useState('Enter a text');
 
+  let agent: MarioboardAgent;
+
   useEffect(() => {
-    IGS.netSetServerURL("ws://localhost:5000");
-    IGS.agentSetName("Marioboard");
-    IGS.start();
+    agent = new MarioboardAgent("ws://localhost:5000");
   }, [])
 
   const handleChange = (event: any) => {
     // 👇 Get input value from "event"
     setMessage(event.target.value);
 
-    let args = [];
-    IGS.serviceArgsAddInt()
-    const ret = IGS.serviceCall("Whiteboard", "addShape", ['ellipse', 100, 300, 200, 100, 'blue', 'black', 4], '');
-    console.log("service returned", ret);
+    agent.addShape("ellipse", 100, 300, 200, 100, "blue", "black", 4);
   };
 
   return (
