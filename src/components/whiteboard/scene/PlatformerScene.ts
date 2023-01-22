@@ -3,8 +3,8 @@ import Event from "../../../utils/Event";
 import generateAnimations from "./animations";
 import WbElement from "../../../model/WbElement";
 
-const MIN_SPEED = 1;
-const MAX_SPEED = 3;
+let MIN_SPEED = 1;
+let MAX_SPEED = 3;
 
 export default class PlatformerScene extends Phaser.Scene {
   private player: Phaser.Physics.Matter.Sprite;
@@ -37,7 +37,6 @@ export default class PlatformerScene extends Phaser.Scene {
 
   public create() {
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.matter.set30Hz();
 
     // Initialisation de MatterJS
     this.matter.world.createDebugGraphic();
@@ -74,12 +73,17 @@ export default class PlatformerScene extends Phaser.Scene {
     });
 
     this.input.on('pointerdown', (ev: any) => {
-      this.onClick.trigger(new Phaser.Math.Vector2(ev.x, ev.y));
+      this.onClick.trigger(new Phaser.Math.Vector2  (ev.x, ev.y));
     });
   }
 
   // Gestion des déplacements
   public update(time: number, delta: number) {
+    const factor = delta / (1000 / 144);
+    MAX_SPEED = 3 * factor;
+
+    this.matter.world.setGravity(0, factor);
+
     this.player.angle = 0;
     if (this.cursors.left.isDown) {
       this.player.scaleX = -2;
@@ -108,7 +112,7 @@ export default class PlatformerScene extends Phaser.Scene {
     }
     if (this.cursors.up.isDown && this.onFloor) {
       this.player.setAwake();
-      this.player.setVelocityY(-10);
+      this.player.setVelocityY(-10-(factor-1)*5);
       this.onFloor = false;
       this.player.play('jump', true)
     }
