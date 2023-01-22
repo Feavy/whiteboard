@@ -4,26 +4,20 @@ import Toolbar from "./toolbar/Toolbar";
 import Phaser from "phaser";
 import PlatformerScene from "./scene/PlatformerScene";
 import Singleton from "tydi/di/annotations/Singleton";
-
-const config: Phaser.Types.Core.GameConfig = {
-  type: Phaser.WEBGL,
-  backgroundColor: '#ffffff',
-  physics: {
-    default: 'matter',
-    matter: {
-      debug: true,
-      enableSleeping: false
-    }
-  }
-};
+import config from "./scene/config";
+import WbShape from "../../model/WbShape";
+import WhiteboardService from "../../services/whiteboard/WhiteboardService";
 
 @Singleton
 export default class Marioboard {
   private _game: Phaser.Game;
   private _scene: PlatformerScene;
 
-  constructor() {
+  private _initialized: boolean = false;
+
+  constructor(private readonly whiteboardService: WhiteboardService) {
     this.view = this.view.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   public get game() {
@@ -34,36 +28,44 @@ export default class Marioboard {
     return this._scene;
   }
 
+  private setup(width: number, height: number, canvas: HTMLCanvasElement) {
+    if(this._initialized) return;
+
+    this._scene = new PlatformerScene(width, height);
+    this._scene.onClick.subscribe(this.onClick);
+
+    config.width = width;
+    config.height = height;
+
+    config.canvas = canvas;
+    config.scene = this._scene;
+
+    this._game = new Phaser.Game(config);
+
+    this._initialized = true;
+    this.whiteboardService.getElements();
+  }
+
+  private onClick(point: Phaser.Math.Vector2) {
+    const elem = new WbShape("rectangle", point.x, point.y, 50, 50, "white", "black", 1);
+    this.scene.addElement(elem);
+    this.whiteboardService.addElement(elem);
+  }
+
   public view() {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    let initialized: boolean = false;
-
     useEffect(() => {
-      if(initialized) {
-        return;
-      }
-
       const width = containerRef.current?.offsetWidth || 0;
       const height = containerRef.current?.offsetHeight || 0;
 
-      this._scene = new PlatformerScene(width, height);
-
-      config.width = width;
-      config.height = height;
-
-      config.canvas = canvasRef.current!!;
-      config.scene = this._scene;
-
-      this._game = new Phaser.Game(config);
-
-      initialized = true;
+      this.setup(width, height, canvasRef.current!);
     }, []);
 
     return (
         <div id="whiteboard" ref={containerRef}>
-          <h1 id="title">Whiteboard</h1>
+          <h1 id="title">Marioboard</h1>
           <canvas id="canvas" ref={canvasRef}/>
           <Toolbar/>
         </div>

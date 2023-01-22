@@ -10,11 +10,11 @@ import WhiteboardService from "./services/whiteboard/WhiteboardService";
 const dependencies_5 = new Dependencies();
 
 // Dependencies
-const marioboard_6 = new Marioboard();
-const app_1 = new App(marioboard_6);
+const whiteboardService_10 = new WhiteboardService();
+const marioboard_7 = new Marioboard(whiteboardService_10);
+const app_1 = new App(marioboard_7);
 const serverURL_4 = app_1.serverURL;
-const marioboardService_8 = new MarioboardService(serverURL_4);
-const whiteboardService_9 = new WhiteboardService();
+const marioboardService_9 = new MarioboardService(serverURL_4);
 
 // Lazy injects
 
@@ -22,10 +22,10 @@ const whiteboardService_9 = new WhiteboardService();
 dependencies_5.register("App", app_1);
 dependencies_5.register("serverURL", serverURL_4);
 dependencies_5.register("Dependencies", dependencies_5);
-dependencies_5.register("Marioboard", marioboard_6);
-dependencies_5.register("MarioboardService", marioboardService_8);
-dependencies_5.register("WhiteboardService", whiteboardService_9);
+dependencies_5.register("Marioboard", marioboard_7);
+dependencies_5.register("MarioboardService", marioboardService_9);
+dependencies_5.register("WhiteboardService", whiteboardService_10);
 
 // Run @Startup methods
 app_1.render();
-marioboardService_8.start();
+marioboardService_9.start();

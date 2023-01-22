@@ -1,13 +1,16 @@
 import WbElement from "./WbElement";
 
-export default interface WbShape extends WbElement {
-  type: "shape";
-  shape: string;
-  fill: string;
-  stroke: string;
-  strokeWidth: number;
-}
+export default class WbShape extends WbElement {
+    public readonly shape: string;
+    public readonly fill: string;
+    public readonly stroke: string;
+    public readonly strokeWidth: number;
 
-export function isWbShape(element: WbElement): element is WbShape {
-  return element.type === "shape";
+    constructor(shape: string, x: number, y: number, width: number, height: number, fill: string, stroke: string, strokeWidth: number) {
+        super(-1, x, y, width, height);
+        this.shape = shape;
+        this.fill = fill;
+        this.stroke = stroke;
+        this.strokeWidth = strokeWidth;
+    }
 }

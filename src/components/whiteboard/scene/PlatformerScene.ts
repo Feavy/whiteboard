@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
 import Event from "../../../utils/Event";
 import generateAnimations from "./animations";
+import WbElement from "../../../model/WbElement";
 
 const MIN_SPEED = 1;
 const MAX_SPEED = 3;
@@ -13,10 +14,9 @@ export default class PlatformerScene extends Phaser.Scene {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private onFloor = false;
 
-
   private speed = 0;
 
-  public readonly onClick: Event<Phaser.Geom.Point> = new Event();
+  public readonly onClick: Event<Phaser.Math.Vector2> = new Event();
 
   public constructor(private width: number, private height: number) {
     super("Whiteboard");
@@ -26,6 +26,12 @@ export default class PlatformerScene extends Phaser.Scene {
     this.load.atlas('atlas', '/assets/mario-atlas.png', '/assets/mario-atlas.json');
     this.load.on('complete', () => {
       generateAnimations(this);
+    });
+  }
+
+  public addElement(element: WbElement) {
+    this.matter.add.rectangle(element.x, element.y, element.width, element.height, {
+      isStatic: true,
     });
   }
 
@@ -68,13 +74,11 @@ export default class PlatformerScene extends Phaser.Scene {
     });
 
     this.input.on('pointerdown', (ev: any) => {
-      this.onClick.trigger(new Phaser.Geom.Point(ev.x, ev.y));
-      this.matter.add.rectangle(ev.worldX, ev.worldY, 50, 50, {
-        isStatic: true,
-      });
+      this.onClick.trigger(new Phaser.Math.Vector2(ev.x, ev.y));
     });
   }
 
+  // Gestion des déplacements
   public update(time: number, delta: number) {
     this.player.angle = 0;
     if (this.cursors.left.isDown) {

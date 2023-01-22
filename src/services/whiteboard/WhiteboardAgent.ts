@@ -30,4 +30,9 @@ export default class WhiteboardAgent {
 
     return IGS.serviceCall("Whiteboard", "moveTo", args, '');
   }
+
+  public getElements() {
+    let args: any[] = [];
+    return IGS.serviceCall("Whiteboard", "getElements", args, '');
+  }
 }
