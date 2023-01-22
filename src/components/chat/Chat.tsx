@@ -2,7 +2,7 @@ import AvatarIcon from '@mui/icons-material/AccountCircle';
 import './Chat.css'
 import {useEffect, useState} from "react";
 import {IGS} from "../../ingescape";
-import MarioboardAgent from "../../agents/MarioboardAgent";
+import MarioboardAgent from "../../services/MarioboardAgent";
 
 function Chat() {
 

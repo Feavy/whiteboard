@@ -1,11 +1,7 @@
-import {IGS} from "../ingescape";
-import Singleton from "tydi/di/annotations/Singleton";
+import {IGS} from "../../ingescape";
 
-type shape = "ellipse" | "rectangle" | "triangle";
-
-@Singleton
 export default class WhiteboardAgent {
-  public addShape(shape: shape, x: number, y: number, width: number, height: number, fill: string, stroke: string, strokeWidth: number) {
+  public addShape(shape: string, x: number, y: number, width: number, height: number, fill: string, stroke: string, strokeWidth: number) {
     let args: any[] = [];
     IGS.serviceArgsAddString(args, shape);
     IGS.serviceArgsAddDouble(args, x);
