@@ -18,6 +18,8 @@ export default class PlatformerScene extends Phaser.Scene {
 
   public readonly onClick: Event<Phaser.Math.Vector2> = new Event();
 
+  private readonly elements: Map<number, WbElement> = new Map();
+
   public constructor(private width: number, private height: number) {
     super("Whiteboard");
   }
@@ -33,6 +35,11 @@ export default class PlatformerScene extends Phaser.Scene {
     this.matter.add.rectangle(element.x, element.y, element.width, element.height, {
       isStatic: true,
     });
+    if(element.id == -1) {
+      element.id = this.elements.size;
+      console.error("Adding element with id -1!");
+    }
+    this.elements.set(element.id, element);
   }
 
   public create() {

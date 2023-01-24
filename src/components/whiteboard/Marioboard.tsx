@@ -9,6 +9,7 @@ import WbShape from "../../model/WbShape";
 import WhiteboardService from "../../services/whiteboard/WhiteboardService";
 import Dependencies from "tydi/lib/Dependencies";
 import MarioboardService from "../../services/marioboard/MarioboardService";
+import WbElement from "../../model/WbElement";
 
 @Singleton
 export default class Marioboard {
@@ -29,6 +30,7 @@ export default class Marioboard {
   public get scene() {
     return this._scene;
   }
+
 
   private setup(width: number, height: number, canvas: HTMLCanvasElement) {
     if(this._initialized) return;
