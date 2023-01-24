@@ -7,6 +7,8 @@ import Singleton from "tydi/di/annotations/Singleton";
 import config from "./scene/config";
 import WbShape from "../../model/WbShape";
 import WhiteboardService from "../../services/whiteboard/WhiteboardService";
+import Dependencies from "tydi/lib/Dependencies";
+import MarioboardService from "../../services/marioboard/MarioboardService";
 
 @Singleton
 export default class Marioboard {
@@ -43,7 +45,18 @@ export default class Marioboard {
     this._game = new Phaser.Game(config);
 
     this._initialized = true;
-    this.whiteboardService.getElements();
+    console.log("getting elements");
+    setTimeout(() => {
+      this.whiteboardService.getElements().then(elements => {
+        console.log("current elements", elements);
+        for(const element of elements) {
+          const {id, type, x, y, width, height, fill, stroke, strokeWidth} = element;
+          const shape = new WbShape(type, x, y, width, height, fill, stroke, strokeWidth);
+          shape.id = id;
+          this._scene.addElement(shape);
+        }
+      });
+    }, 1000);
   }
 
   private onClick(point: Phaser.Math.Vector2) {

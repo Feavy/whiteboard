@@ -29,7 +29,7 @@ export default class WhiteboardService {
     this.agent.moveTo(element.id, element.x, element.y);
   }
 
-  public getElements() {
-    this.agent.getElements();
+  public getElements(): Promise<any[]> {
+    return this.agent.getElements().then(str => JSON.parse(str));
   }
 }

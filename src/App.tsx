@@ -10,7 +10,7 @@ import Produces from "tydi/di/annotations/Produces";
 @Singleton
 export default class App {
   @Produces
-  public serverURL: string = "ws://localhost:5000";
+  public serverURL: string = "ws://localhost:5001";
 
   constructor(private readonly marioboard: Marioboard) {
   }
