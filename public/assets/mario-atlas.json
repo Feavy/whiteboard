@@ -233,8 +233,35 @@
                 "x": 0.5,
                 "y": 0.5
             }
+        },
+        {
+            "filename": "goomba-atlas_0",
+            "frame": {
+                "x": 0,
+                "y": 32,
+                "w": 16,
+                "h": 16
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "goomba-atlas_1",
+            "frame": {
+                "x": 16,
+                "y": 32,
+                "w": 16,
+                "h": 16
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
         }
     ],
+
     "meta": {
         "description": "Atlas generado con Atlas Packer Phaser3",
         "web": "https://gammafp.github.io/atlas-packer-phaser/"

@@ -10,6 +10,7 @@ import WhiteboardService from "../../services/whiteboard/WhiteboardService";
 import MarioboardService from "../../services/marioboard/MarioboardService";
 import Inject from "tydi/di/annotations/Inject";
 import {WbElement} from "../../model/WbElement";
+import {image} from "../../model/WbImage";
 
 @Singleton
 export default class Marioboard {
@@ -20,6 +21,7 @@ export default class Marioboard {
   private _sceneInitialized: boolean = false;
 
   private marioId: number = -1;
+  private previousPosition: Phaser.Math.Vector2 = new Phaser.Math.Vector2(0, 0);
 
   @Inject
   private marioboardService: MarioboardService;
@@ -27,6 +29,10 @@ export default class Marioboard {
   constructor(private readonly whiteboardService: WhiteboardService) {
     this.view = this.view.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.onAddElement = this.onAddElement.bind(this);
+    this.onClear = this.onClear.bind(this);
+    this.onMoveElement = this.onMoveElement.bind(this);
+    this.onMarioboardServiceReady = this.onMarioboardServiceReady.bind(this);
   }
 
   public get game() {
@@ -57,40 +63,51 @@ export default class Marioboard {
     if(this._initialized) return;
     this._initialized = true;
 
-    this.marioboardService.onAddElement.subscribe(this.onAddElement.bind(this));
-
-    this.marioboardService.onReady.subscribe((ready) => {
-      if(!ready || ready == this.marioboardService.onReady.lastValue) return;
-      this.onMarioboardServiceReady();
-    });
-
-    this.marioboardService.onMoveElement.subscribe(({id, x, y}) => this.onMoveElement(id, x, y));
+    this.marioboardService.onAddElement.subscribe(this.onAddElement);
+    this.marioboardService.onClear.subscribe(this.onClear);
+    this.marioboardService.onReady.subscribe(this.onMarioboardServiceReady);
+    this.marioboardService.onMoveElement.subscribe(this.onMoveElement);
   }
 
-  private onMarioboardServiceReady() {
+  private onMarioboardServiceReady(status: boolean) {
+    if(!status) return;
+
+    this.marioboardService.onReady.unsubscribe(this.onMarioboardServiceReady);
+
     // Fetch initial elements and add them to the scene
     this.whiteboardService.getElements().then(elements => {
       // TODO : Transformer WbShape en interface
       elements.forEach(this._scene.addElement.bind(this._scene));
     });
 
-    this.whiteboardService.addElement(shape("rectangle", 100, 100, 32, 32, "white", "black", 1)).then(id => {
+    // Add player to the scene
+    this.whiteboardService.addElement(image("https://marioboard.netlify.app/assets/goomba.png", 16, 16)).then(id => {
       this.marioId = id;
 
       setInterval(() => {
-        const {x, y} = this._scene.player;
-        this.whiteboardService.moveElement(this.marioId, x, y);
+        let {x, y} = this._scene.player;
+        x = Math.round(x);
+        y = Math.round(y);
+        if(x != this.previousPosition.x || y != this.previousPosition.y) {
+          this.whiteboardService.moveElement(this.marioId, x, y);
+          this.previousPosition.set(x, y);
+        }
       }, 100);
     });
   }
 
   private onAddElement(element: WbElement) {
+    if(element.id == this.marioId) return;
     this._scene.addElement(element);
   }
 
-  private onMoveElement(id: number, x: number, y: number) {
+  private onMoveElement({id, x, y}: {id: number, x: number, y: number}) {
     if(id == this.marioId) return;
     this._scene.moveElement(id, x, y);
+  }
+
+  private onClear() {
+    this._scene.removeAll();
   }
 
   private onClick(point: Phaser.Math.Vector2) {

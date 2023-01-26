@@ -3,7 +3,8 @@ import Event from "../../../utils/Event";
 import generateAnimations from "./animations";
 import WbShape from "../../../model/WbShape";
 import {colorToNumber} from "./colorToNumber";
-import {isShape, WbElement} from "../../../model/WbElement";
+import {isImage, isShape, WbElement} from "../../../model/WbElement";
+import WbImage from "../../../model/WbImage";
 
 let MIN_SPEED = 1;
 let MAX_SPEED = 3;
@@ -24,7 +25,7 @@ export default class PlatformerScene extends Phaser.Scene {
 
   public readonly onClick: Event<Phaser.Math.Vector2> = new Event();
 
-  private readonly elements: Map<number, Phaser.GameObjects.Rectangle> = new Map();
+  private readonly elements: Map<number, Phaser.GameObjects.Rectangle | Phaser.GameObjects.Image> = new Map();
 
   public constructor(private width: number, private height: number) {
     super("Whiteboard");
@@ -44,13 +45,19 @@ export default class PlatformerScene extends Phaser.Scene {
       element.id = this.elements.size;
     }
 
-    if(isShape(element)) {
+    if (isShape(element)) {
       this.addShape(element);
+    } else if (isImage(element)) {
+      if("source" in element) {
+        //@ts-ignore
+        element.url = element.source;
+      }
+      this.addImage(element);
     }
   }
 
   public addShape(element: WbShape) {
-    console.log(element);
+    console.log("[PlatformerScene] addShape", element);
 
     if (element.type === "rectangle") {
       console.log("fill", colorToNumber(element.fill), 0xffffff);
@@ -65,13 +72,37 @@ export default class PlatformerScene extends Phaser.Scene {
     }
   }
 
+  public addImage(image: WbImage) {
+    console.log("[PlatformerScene] addImage", image);
+
+    if(image.url == "https://marioboard.netlify.app/assets/goomba.png") {
+      const goomba = this.add.sprite(image.x, image.y, "atlas");
+      goomba.scale = 2;
+      goomba.play("goomba", true);
+      this.elements.set(image.id, goomba);
+    }else{
+      const img = this.add.image(image.x, image.y, image.url);
+      img.body = this.matter.add.rectangle(image.x, image.y, 32, 32, {
+        isStatic: true,
+      });
+      this.elements.set(image.id, img);
+    }
+  }
+
   public moveElement(id: number, x: number, y: number) {
     const element = this.elements.get(id);
-    if(element && element.x != x && element.y != y) {
+    if(element && (element.x != x || element.y != y)) {
       console.log("element", element);
       element.x = x;
       element.y = y;
     }
+  }
+
+  public removeAll() {
+    this.elements.forEach((element) => {
+      element.destroy();
+    });
+    this.elements.clear();
   }
 
   public create() {

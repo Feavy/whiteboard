@@ -28,5 +28,5 @@ export function shape(type: string, x: number, y: number, width: number, height:
 }
 
 export function shapeFromArgs(args: string[]): WbShape {
-    return shape(args[0], Number.parseInt(args[1]), Number.parseInt(args[2]), Number.parseInt(args[3]), Number.parseInt(args[4]), args[5], args[6], Number.parseInt(args[7]));
+    return shape(args[0], parseFloat(args[1]), parseFloat(args[2]), parseFloat(args[3]), parseFloat(args[4]), args[5], args[6], parseFloat(args[7]));
 }

@@ -4,9 +4,9 @@ import WbImage from "./WbImage";
 export type WbElement = WbShape | WbImage;
 
 export function isShape(element: WbElement): element is WbShape {
-  return "type" in element;
+  return "type" in element && element.type !== "image";
 }
 
 export function isImage(element: WbElement): element is WbImage {
-  return "id" in element;
+  return "url" in element || "type" in element && element.type === "image";
 }

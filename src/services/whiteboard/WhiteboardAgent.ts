@@ -13,19 +13,38 @@ export default class WhiteboardAgent {
   }
 
   public addShape(shape: string, x: number, y: number, width: number, height: number, fill: string, stroke: string, strokeWidth: number): Promise<number> {
-    let args: any[] = [];
-    IGS.serviceArgsAddString(args, shape);
-    IGS.serviceArgsAddDouble(args, x);
-    IGS.serviceArgsAddDouble(args, y);
-    IGS.serviceArgsAddDouble(args, width);
-    IGS.serviceArgsAddDouble(args, height);
-    IGS.serviceArgsAddString(args, fill);
-    IGS.serviceArgsAddString(args, stroke);
-    IGS.serviceArgsAddDouble(args, strokeWidth);
-
-    IGS.serviceCall("Whiteboard", "addShape", args, '');
-
     return new Promise((resolve, reject) => {
+      let args: any[] = [];
+      IGS.serviceArgsAddString(args, shape);
+      IGS.serviceArgsAddDouble(args, x);
+      IGS.serviceArgsAddDouble(args, y);
+      IGS.serviceArgsAddDouble(args, width);
+      IGS.serviceArgsAddDouble(args, height);
+      IGS.serviceArgsAddString(args, fill);
+      IGS.serviceArgsAddString(args, stroke);
+      IGS.serviceArgsAddDouble(args, strokeWidth);
+
+      if (!IGS.serviceCall("Whiteboard", "addShape", args, '')) {
+        reject("An error occurred on addShape");
+      }
+
+      this.onElementCreated.subscribeOnce(value => {
+        resolve(value);
+      });
+    });
+  }
+
+  public addImage(url: string, x: number, y: number): Promise<number> {
+    return new Promise((resolve, reject) => {
+      let args: any[] = [];
+      IGS.serviceArgsAddString(args, url);
+      IGS.serviceArgsAddDouble(args, x);
+      IGS.serviceArgsAddDouble(args, y);
+
+      if(!IGS.serviceCall("Whiteboard", "addImageFromUrl", args, '')) {
+        reject("An error occurred on addImage");
+      }
+
       this.onElementCreated.subscribeOnce(value => {
         resolve(value);
       });
@@ -71,7 +90,6 @@ export default class WhiteboardAgent {
 
     const log = senderAgentName + " called service " + serviceName;
     console.log(log)
-    //add code here if needed
     this.onElementCreated.trigger(elementId);
   }
 

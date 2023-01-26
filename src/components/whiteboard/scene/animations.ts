@@ -27,4 +27,15 @@ export default (scene: Phaser.Scene) => {
     frames: [{ key: 'atlas', frame: 'mario-atlas_5' }],
     frameRate: 10
   });
+
+  scene.anims.create({
+    key: 'goomba',
+    frames: scene.anims.generateFrameNames('atlas', {
+      prefix: 'goomba-atlas_',
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 4,
+    repeat: -1
+  });
 };
