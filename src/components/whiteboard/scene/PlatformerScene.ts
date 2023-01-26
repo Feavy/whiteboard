@@ -1,13 +1,19 @@
 import * as Phaser from "phaser";
 import Event from "../../../utils/Event";
 import generateAnimations from "./animations";
-import WbElement from "../../../model/WbElement";
+import WbShape from "../../../model/WbShape";
+import {colorToNumber} from "./colorToNumber";
+import {isShape, WbElement} from "../../../model/WbElement";
 
 let MIN_SPEED = 1;
 let MAX_SPEED = 3;
 
 export default class PlatformerScene extends Phaser.Scene {
-  private player: Phaser.Physics.Matter.Sprite;
+  private _player: Phaser.Physics.Matter.Sprite;
+
+  public get player() {
+    return this._player;
+  }
 
   private jumpSensor: MatterJS.BodyType;
 
@@ -18,7 +24,7 @@ export default class PlatformerScene extends Phaser.Scene {
 
   public readonly onClick: Event<Phaser.Math.Vector2> = new Event();
 
-  private readonly elements: Map<number, WbElement> = new Map();
+  private readonly elements: Map<number, Phaser.GameObjects.Rectangle> = new Map();
 
   public constructor(private width: number, private height: number) {
     super("Whiteboard");
@@ -32,14 +38,40 @@ export default class PlatformerScene extends Phaser.Scene {
   }
 
   public addElement(element: WbElement) {
-    this.matter.add.rectangle(element.x, element.y, element.width, element.height, {
-      isStatic: true,
-    });
-    if(element.id == -1) {
+    console.log("id", this.elements.size);
+
+    if (element.id == -1) {
       element.id = this.elements.size;
-      console.error("Adding element with id -1!");
     }
-    this.elements.set(element.id, element);
+
+    if(isShape(element)) {
+      this.addShape(element);
+    }
+  }
+
+  public addShape(element: WbShape) {
+    console.log(element);
+
+    if (element.type === "rectangle") {
+      console.log("fill", colorToNumber(element.fill), 0xffffff);
+      const rect = this.add.rectangle(element.x, element.y, element.width, element.height, colorToNumber(element.fill));
+      rect.setStrokeStyle(element.strokeWidth, colorToNumber(element.stroke));
+      rect.body = this.matter.add.rectangle(element.x, element.y, element.width, element.height, {
+        isStatic: true,
+      });
+      rect.width = element.width;
+      rect.height = element.height;
+      this.elements.set(element.id, rect);
+    }
+  }
+
+  public moveElement(id: number, x: number, y: number) {
+    const element = this.elements.get(id);
+    if(element && element.x != x && element.y != y) {
+      console.log("element", element);
+      element.x = x;
+      element.y = y;
+    }
   }
 
   public create() {
@@ -50,8 +82,8 @@ export default class PlatformerScene extends Phaser.Scene {
     this.matter.world.setBounds(0, 0, this.width, this.height);
 
 // Création des objets de jeu
-    this.player = this.matter.add.sprite(200, 300, "atlas");
-    this.player.scale = 2;
+    this._player = this.matter.add.sprite(200, 300, "atlas");
+    this._player.scale = 2;
 
     const corps = this.matter.bodies.rectangle(0, 0, 32, 32);
 
@@ -65,10 +97,10 @@ export default class PlatformerScene extends Phaser.Scene {
       parts: [corps, this.jumpSensor],
     });
 
-    this.player.setExistingBody(body);
+    this._player.setExistingBody(body);
 
-    this.player.setBounce(0.2);
-    this.player.setFriction(1);
+    this._player.setBounce(0.2);
+    this._player.setFriction(1);
 
     // Gestion des collisions
     this.matter.world.on("collisionstart", (event: MatterJS.IEventCollision<any>) => {
@@ -91,37 +123,37 @@ export default class PlatformerScene extends Phaser.Scene {
 
     this.matter.world.setGravity(0, factor);
 
-    this.player.angle = 0;
+    this._player.angle = 0;
     if (this.cursors.left.isDown) {
-      this.player.scaleX = -2;
+      this._player.scaleX = -2;
       this.speed -= delta / 100;
       if (this.speed > -MIN_SPEED) {
         this.speed = -MIN_SPEED;
       } else if (this.speed < -MAX_SPEED) {
         this.speed = -MAX_SPEED;
       }
-      this.player.setVelocityX(this.speed);
-      this.onFloor && this.player.play('run', true)
+      this._player.setVelocityX(this.speed);
+      this.onFloor && this._player.play('run', true)
     } else if (this.cursors.right.isDown) {
-      this.player.scaleX = 2;
+      this._player.scaleX = 2;
       this.speed += delta / 100;
       if (this.speed < MIN_SPEED) {
         this.speed = MIN_SPEED;
       } else if (this.speed > MAX_SPEED) {
         this.speed = MAX_SPEED;
       }
-      this.player.setVelocityX(this.speed);
-      this.onFloor && this.player.play('run', true)
+      this._player.setVelocityX(this.speed);
+      this.onFloor && this._player.play('run', true)
     } else if (this.onFloor) {
-      this.player.setVelocityX(0);
+      this._player.setVelocityX(0);
       this.speed = 0;
-      this.player.play('idle', true)
+      this._player.play('idle', true)
     }
     if (this.cursors.up.isDown && this.onFloor) {
-      this.player.setAwake();
-      this.player.setVelocityY(-10-(factor-1)*5);
+      this._player.setAwake();
+      this._player.setVelocityY(-10-(factor-1)*5);
       this.onFloor = false;
-      this.player.play('jump', true)
+      this._player.play('jump', true)
     }
   }
 }

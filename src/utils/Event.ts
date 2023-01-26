@@ -1,5 +1,8 @@
+import {useState} from "react";
+
 export default class Event<T> {
   private listeners: (<K extends T>(value: K) => void)[] = [];
+  public lastValue: T|null = null;
 
   public subscribe(listener: (value: T) => void) {
     this.listeners.push(listener);
@@ -25,5 +28,12 @@ export default class Event<T> {
     for (const listener of listeners) {
       listener(value);
     }
+    this.lastValue = value;
+  }
+
+  public asState() {
+    const [value, setValue] = useState<T|null>(this.lastValue);
+    this.subscribe(setValue);
+    return value;
   }
 }

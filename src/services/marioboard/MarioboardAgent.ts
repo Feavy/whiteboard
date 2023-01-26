@@ -3,26 +3,33 @@ import Event from "../../utils/Event";
 
 export default class MarioboardAgent {
   public readonly onActionInput: Event<string> = new Event();
+  public readonly onConnectionStateChange: Event<boolean> = new Event();
+
+  public readonly onReady: Event<boolean> = new Event();
 
   public constructor(serverURL: string) {
     IGS.netSetServerURL(serverURL);
     IGS.agentSetName("Marioboard");
-    IGS.inputCreate("whiteboardAction", iopTypes.IGS_STRING_T, "");
-    IGS.outputCreate("userAction", iopTypes.IGS_STRING_T, "");
-    IGS.observeInput("whiteboardAction", this.whiteboardActionInputCallback.bind(this));
+    IGS.inputCreate("action", iopTypes.IGS_STRING_T, "");
+    IGS.observeInput("action", this.whiteboardActionInputCallback.bind(this));
+    IGS.observeWebSocketState(this.isConnectedToServerChanged.bind(this));
   }
 
   public start() {
     IGS.start();
   }
 
-  private whiteboardActionInputCallback(type: string, name: string, valueType: number, value: string, myData: any) {
-    console.log("whiteboardActionInputCallback", type, name, valueType, value, myData);
-
-    this.onActionInput.trigger(value);
+  private isConnectedToServerChanged(isConnected: boolean) {
+    console.log("isConnectedToServerChanged", isConnected);
+    this.onConnectionStateChange.trigger(isConnected);
+    this.onReady.trigger(isConnected && this.onActionInput.lastValue !== null);
   }
 
-  public outputClientAction(output: string) {
-    IGS.outputSetString("clientAction", output);
+  private whiteboardActionInputCallback(type: string, name: string, valueType: number, value: string, myData: any) {
+    // console.log("[MarioboardAgent] whiteboardActionInputCallback", type, name, valueType, value, myData);
+
+    this.onReady.trigger(true);
+    if(value === "") return;
+    this.onActionInput.trigger(value);
   }
 }

@@ -13,6 +13,19 @@
     margin-top: 1em;
 }
 
+#status {
+    color: #222;
+    position: absolute;
+    z-index: 3;
+    margin: .25em;
+    padding: 0.5em;
+}
+
+#status span {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 .canvas-container {
     position: absolute !important;
     top: 0 !important;

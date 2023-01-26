@@ -2,6 +2,7 @@ import {IGS, iopTypes} from "../../ingescape";
 import Event from "../../utils/Event";
 
 export default class WhiteboardAgent {
+  private readonly onElementCreated: Event<number> = new Event();
   private readonly onGetElements: Event<string> = new Event();
 
   constructor() {
@@ -11,7 +12,7 @@ export default class WhiteboardAgent {
     IGS.serviceArgAdd("elements", "jsonArray", iopTypes.IGS_STRING_T);
   }
 
-  public addShape(shape: string, x: number, y: number, width: number, height: number, fill: string, stroke: string, strokeWidth: number) {
+  public addShape(shape: string, x: number, y: number, width: number, height: number, fill: string, stroke: string, strokeWidth: number): Promise<number> {
     let args: any[] = [];
     IGS.serviceArgsAddString(args, shape);
     IGS.serviceArgsAddDouble(args, x);
@@ -22,7 +23,13 @@ export default class WhiteboardAgent {
     IGS.serviceArgsAddString(args, stroke);
     IGS.serviceArgsAddDouble(args, strokeWidth);
 
-    return IGS.serviceCall("Whiteboard", "addShape", args, '');
+    IGS.serviceCall("Whiteboard", "addShape", args, '');
+
+    return new Promise((resolve, reject) => {
+      this.onElementCreated.subscribeOnce(value => {
+        resolve(value);
+      });
+    });
   }
 
   public removeElement(elementId: number) {
@@ -65,12 +72,12 @@ export default class WhiteboardAgent {
     const log = senderAgentName + " called service " + serviceName;
     console.log(log)
     //add code here if needed
-
+    this.onElementCreated.trigger(elementId);
   }
 
   private elementsServiceCallback(senderAgentName: string, senderAgentUUID: string, serviceName: string, serviceArguments: any, token: string, myData: any) {
-    var jsonArrayValue = serviceArguments[0].value;
     console.log("jsonArray", serviceArguments);
+    var jsonArrayValue = serviceArguments[0].value;
 
     var log = senderAgentName + " called service " + serviceName;
     console.log(log)
