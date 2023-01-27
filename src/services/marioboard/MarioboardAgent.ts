@@ -12,6 +12,7 @@ export default class MarioboardAgent {
     IGS.agentSetName("Marioboard");
     IGS.inputCreate("action", iopTypes.IGS_STRING_T, "");
     IGS.observeInput("action", this.whiteboardActionInputCallback.bind(this));
+    IGS.outputCreate("lastActionStatus", iopTypes.IGS_STRING_T, "");
     IGS.observeWebSocketState(this.isConnectedToServerChanged.bind(this));
   }
 
@@ -31,5 +32,9 @@ export default class MarioboardAgent {
     this.onReady.trigger(true);
     if(value === "") return;
     this.onActionInput.trigger(value);
+  }
+
+  public setLastActionStatus(status: string) {
+    IGS.outputSetString("lastActionStatus", status);
   }
 }

@@ -39,21 +39,27 @@ export default class MarioboardService {
     switch (service) {
       case "addShape":
         this.onAddElement.trigger(shapeFromArgs(args));
+        this.agent.setLastActionStatus("Success: [" + value + "]");
         break;
       case "addImageFromUrl":
         this.onAddElement.trigger(imageFromArgs(args));
+        this.agent.setLastActionStatus("Success: [" + value + "]");
       case "moveTo":
         this.onMoveElement.trigger({id: parseInt(args[0]), x: parseInt(args[1]), y: parseInt(args[2])});
+        this.agent.setLastActionStatus("Success: [" + value + "]");
         break;
       case "remove":
         console.log("remove");
         this.onRemoveElement.trigger(parseInt(args[0]));
+        this.agent.setLastActionStatus("Success: [" + value + "]");
         break;
       case "clear":
         console.log("clear");
+        this.agent.setLastActionStatus("Success: [" + value + "]");
         this.onClear.trigger();
         break;
       default:
+        this.agent.setLastActionStatus("Error: [" + value + "]");
         console.log("[MarioboardService] Input not handled: ", service);
     }
   }
