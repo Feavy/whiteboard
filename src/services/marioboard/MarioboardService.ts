@@ -31,7 +31,7 @@ export default class MarioboardService {
   }
 
   private whiteboardActionInputCallback(value: string) {
-    const service = value.includes(":") ? value.split(": ")[0].split(" ")[1] : value;
+    const service = value.includes(" ") ? value.split(" ")[1].replaceAll(":", "") : value;
     const args = value.includes(":") ? value.split(": ")[1].split(", ") : [];
 
     // console.log("[MarioboardService] Received input: ", value);
