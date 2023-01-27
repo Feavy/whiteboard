@@ -454,7 +454,7 @@
                     "isCollapsed": false,
                     "positionX": 418,
                     "positionY": 239,
-                    "positionZ": 5.989999999999916,
+                    "positionZ": 6.059999999999914,
                     "width": 252
                 }
             },
@@ -549,18 +549,13 @@
                     "inputs": [
                         {
                             "description": "",
-                            "name": "whiteboardAction",
+                            "name": "action",
                             "type": "STRING"
                         }
                     ],
                     "isDynamic": false,
                     "name": "Marioboard",
                     "outputs": [
-                        {
-                            "description": "",
-                            "name": "userAction",
-                            "type": "STRING"
-                        }
                     ],
                     "parameters": [
                     ],
@@ -589,13 +584,7 @@
                 "identity": "Marioboard",
                 "instances": [
                     {
-                        "commandLine": "/opt/Ingescape-Circle/bin/igsProxy --port 5670 --device wlo1 --name Proxy --license /home/n7student/Documents/Ingescape/licenses/ --ws ws://localhost:5000",
-                        "hostname": "n7app01",
-                        "ipAddress": "172.22.222.109",
-                        "mac": "9C:FC:E8:D0:7F:87"
-                    },
-                    {
-                        "commandLine": "/opt/Ingescape-Circle/bin/igsProxy --port 5690 --device wlo1 --name Proxy --license /home/n7student/Documents/Ingescape/licenses/ --ws ws://localhost:5001",
+                        "commandLine": "/opt/Ingescape-Circle/bin/igsProxy --port 5690 --device wlo1 --license /home/n7student/Documents/Ingescape/licenses/ --ws ws://localhost:5001",
                         "hostname": "n7app01",
                         "ipAddress": "172.22.222.109",
                         "mac": "9C:FC:E8:D0:7F:87"
@@ -604,219 +593,9 @@
                 "view": {
                     "height": 40,
                     "isCollapsed": false,
-                    "positionX": 629,
-                    "positionY": 458,
-                    "positionZ": 5.979999999999916,
-                    "width": 252
-                }
-            },
-            {
-                "data": {
-                },
-                "definition": {
-                    "description": "",
-                    "family": "",
-                    "inputs": [
-                        {
-                            "description": "",
-                            "name": "photo",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "statut",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "nom",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "prenom",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "numero_telephone",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "a_propos",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "mail",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "adresse",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "langues",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "competences",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "education",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "experiences",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "reseaux_sociaux",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "projets",
-                            "type": "STRING"
-                        }
-                    ],
-                    "isDynamic": false,
-                    "name": "CVGenerator",
-                    "outputs": [
-                    ],
-                    "parameters": [
-                    ],
-                    "services": [
-                    ],
-                    "version": "1.0"
-                },
-                "identity": "CVGenerator",
-                "instances": [
-                    {
-                        "commandLine": "/usr/bin/python3 CVGenerator/main.py CVGenerator wlo1 5670",
-                        "hostname": "iron",
-                        "ipAddress": "172.22.221.13"
-                    }
-                ],
-                "view": {
-                    "height": 40,
-                    "isCollapsed": false,
-                    "positionX": 2242,
-                    "positionY": 114,
-                    "positionZ": 5.9599999999999165,
-                    "width": 252
-                }
-            },
-            {
-                "data": {
-                },
-                "definition": {
-                    "description": "",
-                    "family": "",
-                    "inputs": [
-                    ],
-                    "isDynamic": false,
-                    "name": "IHM",
-                    "outputs": [
-                        {
-                            "description": "",
-                            "name": "photo",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "statut",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "nom",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "prenom",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "numero_telephone",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "a_propos",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "mail",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "adresse",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "langues",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "competences",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "education",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "experiences",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "reseaux_sociaux",
-                            "type": "STRING"
-                        },
-                        {
-                            "description": "",
-                            "name": "projets",
-                            "type": "STRING"
-                        }
-                    ],
-                    "parameters": [
-                    ],
-                    "services": [
-                    ],
-                    "version": "1.0"
-                },
-                "identity": "IHM",
-                "instances": [
-                    {
-                        "commandLine": "\"/opt/Ingescape-Circle/bin/igsProxy\" --port 5690 --device \"wlo1\" --license \"/home/ayman/Documents/Ingescape/licenses/\" --ws ws://localhost:5000",
-                        "hostname": "iron",
-                        "ipAddress": "172.22.221.13"
-                    }
-                ],
-                "view": {
-                    "height": 40,
-                    "isCollapsed": false,
-                    "positionX": 1760,
-                    "positionY": 125,
-                    "positionZ": 5.949999999999917,
+                    "positionX": 759,
+                    "positionY": 593,
+                    "positionZ": 6.0999999999999135,
                     "width": 252
                 }
             },
@@ -847,49 +626,13 @@
                         "mac": "9C:FC:E8:D0:7F:87"
                     }
                 ],
-                "lastKnowAgentUUID": "ABE194016C1F847A3C082FCFDD1E37CC",
+                "lastKnowAgentUUID": "AA0C478149C763993F528FE6253943A0",
                 "view": {
                     "height": 44,
-                    "isCollapsed": false,
-                    "positionX": 272,
-                    "positionY": 493,
-                    "positionZ": 5.969999999999916,
-                    "width": 252
-                }
-            },
-            {
-                "data": {
-                },
-                "definition": {
-                    "description": "",
-                    "family": "ca2ffa9faabe4781a21e590fabeabc67",
-                    "inputs": [
-                    ],
-                    "isDynamic": false,
-                    "name": "igsProxy",
-                    "outputs": [
-                    ],
-                    "parameters": [
-                    ],
-                    "services": [
-                    ],
-                    "version": "dynamic"
-                },
-                "identity": "C36EC75851295E57E8DDC6814AAD1E82",
-                "instances": [
-                    {
-                        "commandLine": "\"/opt/Ingescape-Circle/bin/igsProxy\" --port 5690 --device \"wlo1\" --name igsProxy --license \"/home/ayman/Documents/Ingescape/licenses/\" --ws ws://localhost:5000",
-                        "hostname": "iron",
-                        "ipAddress": "172.22.221.13"
-                    }
-                ],
-                "lastKnowAgentUUID": "C36EC75851295E57E8DDC6814AAD1E82",
-                "view": {
-                    "height": 44,
-                    "isCollapsed": false,
-                    "positionX": 652,
-                    "positionY": 649,
-                    "positionZ": 5.879999999999918,
+                    "isCollapsed": true,
+                    "positionX": 763,
+                    "positionY": 514,
+                    "positionZ": 6.109999999999913,
                     "width": 252
                 }
             }
@@ -932,88 +675,10 @@
                 "toOutput": "lastChatMessage"
             },
             {
-                "fromAgent": "CVGenerator",
-                "fromInput": "photo",
-                "toAgent": "IHM",
-                "toOutput": "photo"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "statut",
-                "toAgent": "IHM",
-                "toOutput": "statut"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "nom",
-                "toAgent": "IHM",
-                "toOutput": "nom"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "prenom",
-                "toAgent": "IHM",
-                "toOutput": "prenom"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "numero_telephone",
-                "toAgent": "IHM",
-                "toOutput": "numero_telephone"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "a_propos",
-                "toAgent": "IHM",
-                "toOutput": "a_propos"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "mail",
-                "toAgent": "IHM",
-                "toOutput": "mail"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "adresse",
-                "toAgent": "IHM",
-                "toOutput": "adresse"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "langues",
-                "toAgent": "IHM",
-                "toOutput": "langues"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "education",
-                "toAgent": "IHM",
-                "toOutput": "education"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "reseaux_sociaux",
-                "toAgent": "IHM",
-                "toOutput": "reseaux_sociaux"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "competences",
-                "toAgent": "IHM",
-                "toOutput": "competences"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "experiences",
-                "toAgent": "IHM",
-                "toOutput": "experiences"
-            },
-            {
-                "fromAgent": "CVGenerator",
-                "fromInput": "projets",
-                "toAgent": "IHM",
-                "toOutput": "projets"
+                "fromAgent": "Marioboard",
+                "fromInput": "action",
+                "toAgent": "Whiteboard",
+                "toOutput": "lastAction"
             }
         ],
         "splits": [
@@ -1171,12 +836,12 @@
                 "instances": [
                 ],
                 "view": {
-                    "height": 46,
+                    "height": 91,
                     "isCollapsed": false,
                     "positionX": 739,
                     "positionY": 287,
-                    "positionZ": 5.999999999999916,
-                    "width": 543
+                    "positionZ": 6.039999999999915,
+                    "width": 524
                 }
             },
             {
@@ -1843,7 +1508,7 @@
                     "isCollapsed": false,
                     "positionX": 1533,
                     "positionY": 794,
-                    "positionZ": 5.539999999999925,
+                    "positionZ": 6.069999999999914,
                     "width": 246
                 }
             }

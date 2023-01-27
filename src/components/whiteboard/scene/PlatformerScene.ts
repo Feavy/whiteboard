@@ -11,6 +11,7 @@ let MAX_SPEED = 3;
 
 export default class PlatformerScene extends Phaser.Scene {
   private _player: Phaser.Physics.Matter.Sprite;
+  public nextId: number = 0;
 
   public get player() {
     return this._player;
@@ -39,10 +40,8 @@ export default class PlatformerScene extends Phaser.Scene {
   }
 
   public addElement(element: WbElement) {
-    console.log("id", this.elements.size);
-
     if (element.id == -1) {
-      element.id = this.elements.size;
+      element.id = this.nextId++;
     }
 
     if (isShape(element)) {
@@ -53,6 +52,15 @@ export default class PlatformerScene extends Phaser.Scene {
         element.url = element.source;
       }
       this.addImage(element);
+    }
+  }
+
+  public removeElement(id: number) {
+    const element = this.elements.get(id);
+    console.trace("id", id, element);
+    if (element) {
+      element.destroy();
+      this.elements.delete(id);
     }
   }
 

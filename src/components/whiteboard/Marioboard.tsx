@@ -32,6 +32,7 @@ export default class Marioboard {
     this.onAddElement = this.onAddElement.bind(this);
     this.onClear = this.onClear.bind(this);
     this.onMoveElement = this.onMoveElement.bind(this);
+    this.onRemoveElement = this.onRemoveElement.bind(this);
     this.onMarioboardServiceReady = this.onMarioboardServiceReady.bind(this);
   }
 
@@ -67,6 +68,7 @@ export default class Marioboard {
     this.marioboardService.onClear.subscribe(this.onClear);
     this.marioboardService.onReady.subscribe(this.onMarioboardServiceReady);
     this.marioboardService.onMoveElement.subscribe(this.onMoveElement);
+    this.marioboardService.onRemoveElement.subscribe(this.onRemoveElement)
   }
 
   private onMarioboardServiceReady(status: boolean) {
@@ -76,13 +78,13 @@ export default class Marioboard {
 
     // Fetch initial elements and add them to the scene
     this.whiteboardService.getElements().then(elements => {
-      // TODO : Transformer WbShape en interface
       elements.forEach(this._scene.addElement.bind(this._scene));
     });
 
     // Add player to the scene
     this.whiteboardService.addElement(image("https://marioboard.netlify.app/assets/goomba.png", 16, 16)).then(id => {
       this.marioId = id;
+      this.scene.nextId = this.marioId+1;
 
       setInterval(() => {
         let {x, y} = this._scene.player;
@@ -92,7 +94,7 @@ export default class Marioboard {
           this.whiteboardService.moveElement(this.marioId, x, y);
           this.previousPosition.set(x, y);
         }
-      }, 100);
+      }, 1000/60);
     });
   }
 
@@ -104,6 +106,11 @@ export default class Marioboard {
   private onMoveElement({id, x, y}: {id: number, x: number, y: number}) {
     if(id == this.marioId) return;
     this._scene.moveElement(id, x, y);
+  }
+
+  private onRemoveElement(id: number) {
+    if(id == this.marioId) return;
+    this._scene.removeElement(id);
   }
 
   private onClear() {

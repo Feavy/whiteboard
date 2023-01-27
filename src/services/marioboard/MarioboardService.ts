@@ -16,6 +16,7 @@ export default class MarioboardService {
 
   public readonly onAddElement = new Event<WbElement>();
   public readonly onMoveElement = new Event<{ id: number, x: number, y: number }>();
+  public readonly onRemoveElement = new Event<number>();
 
   public constructor(serverURL: string) {
     this.agent = new MarioboardAgent(serverURL);
@@ -43,6 +44,10 @@ export default class MarioboardService {
         this.onAddElement.trigger(imageFromArgs(args));
       case "moveTo":
         this.onMoveElement.trigger({id: parseInt(args[0]), x: parseInt(args[1]), y: parseInt(args[2])});
+        break;
+      case "remove":
+        console.log("remove");
+        this.onRemoveElement.trigger(parseInt(args[0]));
         break;
       case "clear":
         console.log("clear");
