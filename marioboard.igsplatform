@@ -454,7 +454,7 @@
                     "isCollapsed": false,
                     "positionX": 418,
                     "positionY": 239,
-                    "positionZ": 6.059999999999914,
+                    "positionZ": 6.7299999999999,
                     "width": 252
                 }
             },
@@ -556,6 +556,11 @@
                     "isDynamic": false,
                     "name": "Marioboard",
                     "outputs": [
+                        {
+                            "description": "",
+                            "name": "lastActionStatus",
+                            "type": "STRING"
+                        }
                     ],
                     "parameters": [
                     ],
@@ -584,7 +589,19 @@
                 "identity": "Marioboard",
                 "instances": [
                     {
+                        "commandLine": "\"/opt/Ingescape-Circle/bin/igsProxy\" --port 5690 --device \"wlo1\" --name Marioboard --license \"/home/n7student/Documents/Ingescape/licenses/\" --ws ws://localhost:5001",
+                        "hostname": "n7app01",
+                        "ipAddress": "172.22.222.109",
+                        "mac": "9C:FC:E8:D0:7F:87"
+                    },
+                    {
                         "commandLine": "/opt/Ingescape-Circle/bin/igsProxy --port 5690 --device wlo1 --license /home/n7student/Documents/Ingescape/licenses/ --ws ws://localhost:5001",
+                        "hostname": "n7app01",
+                        "ipAddress": "172.22.222.109",
+                        "mac": "9C:FC:E8:D0:7F:87"
+                    },
+                    {
+                        "commandLine": "/opt/Ingescape-Circle/bin/igsProxy --port 5690 --device wlo1 --name Proxy --license /home/n7student/Documents/Ingescape/licenses/ --ws ws://localhost:5001",
                         "hostname": "n7app01",
                         "ipAddress": "172.22.222.109",
                         "mac": "9C:FC:E8:D0:7F:87"
@@ -593,9 +610,50 @@
                 "view": {
                     "height": 40,
                     "isCollapsed": false,
-                    "positionX": 759,
-                    "positionY": 593,
-                    "positionZ": 6.0999999999999135,
+                    "positionX": 769,
+                    "positionY": 597,
+                    "positionZ": 6.339999999999908,
+                    "width": 252
+                }
+            },
+            {
+                "data": {
+                },
+                "definition": {
+                    "description": "",
+                    "family": "27d9171748894a4c90d3573fd8289cf1",
+                    "inputs": [
+                        {
+                            "description": "",
+                            "name": "Marioboard.lastActionStatus",
+                            "type": "STRING"
+                        }
+                    ],
+                    "isDynamic": false,
+                    "name": "igs",
+                    "outputs": [
+                    ],
+                    "parameters": [
+                    ],
+                    "services": [
+                    ],
+                    "version": "1.0"
+                },
+                "identity": "igs",
+                "instances": [
+                    {
+                        "commandLine": "/opt/Ingescape-Circle/bin/igs --device wlo1 --port 5690 --script /home/n7student/Bureau/Ingescape/whiteboard/src/test/mariobaord.igsscript",
+                        "hostname": "n7app01",
+                        "ipAddress": "172.22.222.109",
+                        "mac": "9C:FC:E8:D0:7F:87"
+                    }
+                ],
+                "view": {
+                    "height": 40,
+                    "isCollapsed": false,
+                    "positionX": 1158,
+                    "positionY": 476,
+                    "positionZ": 6.7199999999999,
                     "width": 252
                 }
             },
@@ -626,13 +684,13 @@
                         "mac": "9C:FC:E8:D0:7F:87"
                     }
                 ],
-                "lastKnowAgentUUID": "AA0C478149C763993F528FE6253943A0",
+                "lastKnowAgentUUID": "7D5AF0398878A9A5E4BA411CAE2919C5",
                 "view": {
                     "height": 44,
                     "isCollapsed": true,
                     "positionX": 763,
                     "positionY": 514,
-                    "positionZ": 6.109999999999913,
+                    "positionZ": 6.419999999999907,
                     "width": 252
                 }
             }
@@ -673,6 +731,18 @@
                 "fromInput": "wildcard",
                 "toAgent": "Whiteboard",
                 "toOutput": "lastChatMessage"
+            },
+            {
+                "fromAgent": "20342885-431f-4ab0-9911-f6a5491892dc",
+                "fromInput": "wildcard",
+                "toAgent": "Marioboard",
+                "toOutput": "lastActionStatus"
+            },
+            {
+                "fromAgent": "igs",
+                "fromInput": "Marioboard.lastActionStatus",
+                "toAgent": "Marioboard",
+                "toOutput": "lastActionStatus"
             },
             {
                 "fromAgent": "Marioboard",
@@ -764,7 +834,7 @@
                     "isCollapsed": false,
                     "positionX": -234,
                     "positionY": 433,
-                    "positionZ": 4.359999999999951,
+                    "positionZ": 6.7499999999999,
                     "width": 256
                 }
             },
@@ -805,7 +875,7 @@
                     "isCollapsed": false,
                     "positionX": -237,
                     "positionY": 42,
-                    "positionZ": 4.289999999999952,
+                    "positionZ": 6.609999999999903,
                     "width": 256
                 }
             },
@@ -840,7 +910,7 @@
                     "isCollapsed": false,
                     "positionX": 739,
                     "positionY": 287,
-                    "positionZ": 6.039999999999915,
+                    "positionZ": 6.589999999999903,
                     "width": 524
                 }
             },
@@ -1029,7 +1099,7 @@
                 "data": {
                     "arguments": [
                         {
-                            "type": "ellipse"
+                            "type": "rectangle"
                         },
                         {
                             "x": "100"
@@ -1084,7 +1154,7 @@
                     "isCollapsed": false,
                     "positionX": 318,
                     "positionY": 777,
-                    "positionZ": 5.479999999999927,
+                    "positionZ": 6.459999999999906,
                     "width": 246
                 }
             },
@@ -1179,11 +1249,11 @@
                 "instances": [
                 ],
                 "view": {
-                    "height": 263,
+                    "height": 243,
                     "isCollapsed": false,
-                    "positionX": 939,
-                    "positionY": 786,
-                    "positionZ": 5.519999999999926,
+                    "positionX": 938,
+                    "positionY": 805,
+                    "positionZ": 6.689999999999901,
                     "width": 260
                 }
             },
@@ -1230,7 +1300,7 @@
                 "data": {
                     "arguments": [
                         {
-                            "elementId": "3"
+                            "elementId": "1"
                         }
                     ],
                     "selectedAgent": "Whiteboard",
@@ -1264,7 +1334,7 @@
                     "isCollapsed": false,
                     "positionX": 1236,
                     "positionY": 788,
-                    "positionZ": 5.549999999999925,
+                    "positionZ": 6.579999999999903,
                     "width": 269
                 }
             },
@@ -1272,13 +1342,13 @@
                 "data": {
                     "arguments": [
                         {
-                            "elementId": "0"
+                            "elementId": "3"
                         },
                         {
-                            "x": "100"
+                            "x": "10"
                         },
                         {
-                            "y": "100"
+                            "y": "10"
                         }
                     ],
                     "selectedAgent": "Whiteboard",
@@ -1312,7 +1382,7 @@
                     "isCollapsed": false,
                     "positionX": 1809,
                     "positionY": 793,
-                    "positionZ": 5.419999999999928,
+                    "positionZ": 6.369999999999908,
                     "width": 255
                 }
             },
@@ -1508,8 +1578,43 @@
                     "isCollapsed": false,
                     "positionX": 1533,
                     "positionY": 794,
-                    "positionZ": 6.069999999999914,
+                    "positionZ": 6.389999999999907,
                     "width": 246
+                }
+            },
+            {
+                "data": {
+                },
+                "definition": {
+                    "description": "",
+                    "family": "7fc274c8-b06e-429b-9d09-d14878381016",
+                    "inputs": [
+                        {
+                            "description": "",
+                            "name": "wildcard",
+                            "type": "WILDCARD_SINGLE_MAPPING"
+                        }
+                    ],
+                    "isDynamic": false,
+                    "name": "",
+                    "outputs": [
+                    ],
+                    "parameters": [
+                    ],
+                    "services": [
+                    ],
+                    "version": ""
+                },
+                "identity": "20342885-431f-4ab0-9911-f6a5491892dc",
+                "instances": [
+                ],
+                "view": {
+                    "height": 76,
+                    "isCollapsed": false,
+                    "positionX": 1110,
+                    "positionY": 624,
+                    "positionZ": 6.6599999999999016,
+                    "width": 399
                 }
             }
         ]
