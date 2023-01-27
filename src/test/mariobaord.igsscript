@@ -1,0 +1,23 @@
+/*
+* MarioBaord App
+*/
+
+"Symetric actions" "Test actions success" {
+    Marioboard.action = "Input clear"
+    assert Marioboard.lastActionStatus == "Success: [Input clear]"
+
+    Marioboard.action = "Service addShape: rectangle, 100, 300, 200, 100, #ff0000, #000000, 3"
+    assert Marioboard.lastActionStatus == "Success: [Service addShape: rectangle, 100, 300, 200, 100, #ff0000, #000000, 3]"
+
+    Marioboard.action = "Service moveTo: 0, 313, 310"
+    assert Marioboard.lastActionStatus == "Success: [Service moveTo: 0, 313, 310]"
+
+    Marioboard.action = "Service addImageFromUrl: https://marioboard.netlify.app/assets/goomba.png, 350, 300"
+    assert Marioboard.lastActionStatus == "Success: [Service addImageFromUrl: https://marioboard.netlify.app/assets/goomba.png, 350, 300]"
+
+    Marioboard.action = "Service remove: 0"
+    assert Marioboard.lastActionStatus == "Success: [Service remove: 0]"
+
+    Marioboard.action = "pepito"
+    assert Marioboard.lastActionStatus == "Error: [pepito]"
+}
