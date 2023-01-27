@@ -59,9 +59,8 @@ export default class PlatformerScene extends Phaser.Scene {
     const element = this.elements.get(id);
     console.trace("id", id, element);
     if (element) {
-      try {
-        element.destroy();
-      }catch(ignored) {}
+      this.matter.world.remove(element.body);
+      element.destroy();
       this.elements.delete(id);
     }
   }
@@ -110,9 +109,8 @@ export default class PlatformerScene extends Phaser.Scene {
 
   public removeAll() {
     this.elements.forEach((element) => {
-      try {
-        element.destroy();
-      }catch(ignored) {}
+      this.matter.world.remove(element.body);
+      element.destroy();
     });
     this.elements.clear();
   }
