@@ -28,9 +28,9 @@ export default class MarioboardAgent {
 
   private whiteboardActionInputCallback(type: string, name: string, valueType: number, value: string, myData: any) {
     // console.log("[MarioboardAgent] whiteboardActionInputCallback", type, name, valueType, value, myData);
-
+    const ready = this.onReady.lastValue;
     this.onReady.trigger(true);
-    if(value === "") return;
+    if(value === "" || !ready && value.includes("clear")) return;
     this.onActionInput.trigger(value);
   }
 

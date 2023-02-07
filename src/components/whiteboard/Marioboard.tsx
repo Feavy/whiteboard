@@ -115,6 +115,7 @@ export default class Marioboard {
 
   private onClear() {
     this._scene.removeAll();
+    window.location.reload();
   }
 
   private onClick(point: Phaser.Math.Vector2) {
